@@ -56,7 +56,7 @@ const RotatingText = () => {
         transition={{ duration: 0.5 }}
       >
         {current.line1} <span className="text-emerald-500">{current.highlight}</span><br />
-        {current.line2} <span className="bg-emerald-500 text-black px-4">{current.highlight2}</span>
+        {current.line2} <span className="bg-emerald-500 text-black px-2 py-1 inline-block">{current.highlight2}</span>
       </motion.div>
     </AnimatePresence>
   );
@@ -302,8 +302,8 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <h1 className="text-6xl md:text-[8rem] font-black tracking-tightest leading-[0.85] uppercase mb-12 text-white">
-                <span className="block italic" style={{ fontSize: '0.2em', letterSpacing: '0.3em', marginBottom: '20px', color: '#10b981' }}>GOD-TIER ALPHA</span>
+              <h1 className="text-5xl md:text-7xl font-black tracking-tightest leading-[1.1] uppercase mb-8 text-white">
+                <span className="block italic" style={{ fontSize: '0.2em', letterSpacing: '0.3em', marginBottom: '12px', color: '#10b981' }}>GOD-TIER ALPHA</span>
                 <RotatingText />
               </h1>
 
