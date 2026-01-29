@@ -2,9 +2,9 @@ import os
 import pandas as pd
 from datetime import datetime
 from pathlib import Path
-from .supabase_client import get_supabase_client
-from .services.polymarket_service import PolymarketService
-from .services.analysis_orchestrator import AnalysisOrchestrator
+from supabase_client import get_supabase_client
+from services.polymarket_service import PolymarketService
+from services.analysis_orchestrator import AnalysisOrchestrator
 
 def fetch_live_markets(limit: int = 100):
     """

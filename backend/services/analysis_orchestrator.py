@@ -1,10 +1,10 @@
 import json
-from .context_service import ContextService
-from .model_service import ModelService
-from .notification_service import NotificationService
-from .betting_service import BettingService
-from ..utils.prompt_builder import PromptBuilder
-from ..supabase_client import get_supabase_client
+from services.context_service import ContextService
+from services.model_service import ModelService
+from services.notification_service import NotificationService
+from services.betting_service import BettingService
+from utils.prompt_builder import PromptBuilder
+from supabase_client import get_supabase_client
 from typing import Dict, Any, Optional, List
 
 class AnalysisOrchestrator:

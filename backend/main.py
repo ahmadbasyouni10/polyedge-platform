@@ -1,10 +1,10 @@
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Depends, Header
 from typing import List, Optional, Dict, Any
 import os
-from .supabase_client import get_supabase_client
-from .scanner import sync_markets_to_supabase
-from .services.polymarket_service import PolymarketService
-from .services.analysis_orchestrator import AnalysisOrchestrator
+from supabase_client import get_supabase_client
+from scanner import sync_markets_to_supabase
+from services.polymarket_service import PolymarketService
+from services.analysis_orchestrator import AnalysisOrchestrator
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
