@@ -28,7 +28,7 @@ export default function SentinelPage() {
             <div className="flex justify-between items-end">
                 <div>
                     <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Sentinel Terminal</h1>
-                    <p className="text-white/40 font-bold tracking-tight">The Eyes of the Cluster. 24/7 Global Signal Fusion.</p>
+                    <p className="text-white/40 font-bold tracking-tight">Real-time market signals. 24/7 edge detection.</p>
                 </div>
                 <div className="flex gap-4">
                     <button className="px-6 py-3 bg-white/5 border border-white/10 rounded-xl font-black text-[11px] uppercase tracking-widest hover:bg-white/10 transition-all flex items-center gap-2">

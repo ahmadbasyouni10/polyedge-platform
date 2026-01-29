@@ -42,7 +42,7 @@ export default function MarketAnalysisPage({ params }: { params: { id: string } 
                                 <div key={i} className="w-6 h-6 rounded-full border border-black bg-emerald-500/20" />
                             ))}
                         </div>
-                        <span className="text-[10px] font-black tracking-widest text-emerald-500 uppercase italic">ANALYSIS BY 4 CLUSTER NODES</span>
+                        <span className="text-[10px] font-black tracking-widest text-emerald-500 uppercase italic">AI ANALYSIS</span>
                     </div>
                     <h1 className="text-4xl font-black uppercase tracking-tightest leading-tight max-w-3xl italic">
                         {analysis.question}

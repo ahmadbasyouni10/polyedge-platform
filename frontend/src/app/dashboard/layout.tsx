@@ -31,7 +31,7 @@ export default function DashboardLayout({
 
                     <div className="flex items-center gap-6 text-[10px] font-black text-white/30 tracking-[0.2em] uppercase">
                         <span>Latency: 134ms</span>
-                        <span>Node: Cluster_S1_North</span>
+                        <span>Region: US-East</span>
                     </div>
                 </header>
 

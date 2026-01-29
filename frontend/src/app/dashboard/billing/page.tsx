@@ -37,7 +37,7 @@ export default function BillingPage() {
                 "Real-time Discord/TG Alerts",
                 "Auto-Betting Engine (CLOB)",
                 "Whale Tape Access",
-                "Priority Cluster Execution (140ms)",
+                "Priority Execution (140ms)",
                 "PnL Analytics Dashboard"
             ],
             cta: "UPGRADE TO PRO",
@@ -56,7 +56,7 @@ export default function BillingPage() {
             <div className="text-center space-y-6">
                 <h1 className="text-5xl font-black uppercase tracking-tighter">Upgrade Your Edge</h1>
                 <p className="text-white/40 font-bold tracking-tight text-lg max-w-2xl mx-auto">
-                    Join the Pro Cluster and unlock the full God-Tier platform. Cancel anytime.
+                    Upgrade to Pro and unlock all features. Cancel anytime.
                 </p>
 
                 {/* Annual Toggle */}

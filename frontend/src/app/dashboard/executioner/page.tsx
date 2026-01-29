@@ -80,7 +80,7 @@ export default function ExecutionerPage() {
                             <p className="text-[10px] font-black tracking-widest text-white/30 uppercase mb-2">Execution Efficiency</p>
                             <h3 className="text-3xl font-black italic uppercase mb-8">142ms Delay</h3>
                             <p className="text-[11px] font-bold text-white/40 uppercase tracking-tight leading-relaxed">
-                                Your node is prioritized for Cluster S1 execution. Global priority: TOP_TIER.
+                                Your account has priority access to auto-betting. Status: Active.
                             </p>
                         </div>
                     </div>

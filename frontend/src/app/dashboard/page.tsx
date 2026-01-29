@@ -13,7 +13,7 @@ export default function DashboardPage() {
         { label: "NET PROFIT", value: "+$1,242.00", sub: "Last 7 Days", icon: <BarChart3 size={20} />, color: "text-emerald-500" },
         { label: "EDGE DETECTED", value: "124", sub: "Scan Sessions", icon: <TrendingUp size={20} />, color: "text-blue-500" },
         { label: "WIN RATE", value: "68%", sub: "Agent Execution", icon: <Zap size={20} />, color: "text-purple-500" },
-        { label: "NODE STATUS", value: "OPTIMAL", sub: "134ms Latency", icon: <Activity size={20} />, color: "text-emerald-500" },
+        { label: "STATUS", value: "OPTIMAL", sub: "134ms Latency", icon: <Activity size={20} />, color: "text-emerald-500" },
     ];
 
     const recentEdges = [
@@ -26,8 +26,8 @@ export default function DashboardPage() {
         <div className="space-y-10 pb-20">
             {/* Welcome Header */}
             <div>
-                <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Quant Terminal</h1>
-                <p className="text-white/40 font-bold tracking-tight">Active Cluster: PRO_S1_QUANT_NODE</p>
+                <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Dashboard</h1>
+                <p className="text-white/40 font-bold tracking-tight">Account: Pro</p>
             </div>
 
             {/* Stats Grid */}

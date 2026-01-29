@@ -61,8 +61,8 @@ export default function SettingsPage() {
     return (
         <div className="max-w-4xl space-y-12 pb-20">
             <div>
-                <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Cluster Settings</h1>
-                <p className="text-white/40 font-bold tracking-tight">Configure your node for Pro-grade execution.</p>
+                <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Settings</h1>
+                <p className="text-white/40 font-bold tracking-tight">Configure your account and risk preferences.</p>
             </div>
 
             <div className="space-y-16">

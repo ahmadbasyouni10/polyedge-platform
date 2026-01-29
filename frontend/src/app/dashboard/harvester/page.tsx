@@ -135,7 +135,7 @@ export default function HarvesterPage() {
                             Whales are currently accumulating YES tokens in the "Nvidia Earnings" market. Conviction score: 94.
                         </p>
                         <button className="w-full py-3 bg-black text-white font-black uppercase tracking-widest text-[10px] rounded-xl hover:bg-white hover:text-black transition-all">
-                            JOIN THE CLUSTER
+                            UPGRADE TO PRO
                         </button>
                     </div>
                 </div>
