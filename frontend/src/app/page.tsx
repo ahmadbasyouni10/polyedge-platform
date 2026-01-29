@@ -152,30 +152,45 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
-  // Notifications Effect
+  // Realistic notification system with gaps
   useEffect(() => {
-    const notificationsPool = [
-      { text: "Edge Detected: 12.4% on 'Super Bowl Winner'", type: "edge" },
-      { text: "Signal: GDELT Flash (Politics) — Identifying Conviction", type: "trade" },
-      { text: "PnL Update: +$242.00 (Auto-Bet Execution)", type: "profit" },
-      { text: "Whale Alert: $45k buy on 'Fed 50bps' @ 0.44", type: "alert" },
-      { text: "Auto-Bet Successful: Order Confirmed", type: "bet" },
-      { text: "Edge Detected: 8.7% on 'BTC $100k'", type: "edge" },
-      { text: "Live Context: Reuters Flash on 'Middle East'", type: "alert" }
+    const notificationPool = [
+      { text: "SENTINEL: Edge detected on BTC $100k (+8.2%)", type: "edge" },
+      { text: "HARVESTER: Whale accumulation on Fed Meeting", type: "whale" },
+      { text: "EDGE_DETECTED: +12.4% on 'Trump Indictment'", type: "edge" },
+      { text: "SIGNAL: GDELT flash on 'Fed Meeting' (Tier 1)", type: "signal" },
+      { text: "BOT_STATUS: Auto-bet executed ($420 on YES)", type: "bot" },
+      { text: "SENTINEL: Scanning 47 markets... 3 edges found", type: "scan" },
+      { text: "HARVESTER: $15k buy wall detected on CLOB", type: "whale" },
+      { text: "EDGE_DETECTED: +6.8% on 'Nvidia Earnings'", type: "edge" },
+      { text: "SIGNAL: Twitter fusion confirms Reuters leak", type: "signal" },
+      { text: "BOT_STATUS: Risk threshold met, holding position", type: "bot" },
     ];
 
-    const showNotification = () => {
-      const randomNotif = notificationsPool[Math.floor(Math.random() * notificationsPool.length)];
-      const id = Date.now();
-      setNotifications(prev => [...prev, { ...randomNotif, id }]);
+    let notificationIndex = 0;
 
+    const showRandomNotification = () => {
+      const notification = notificationPool[notificationIndex % notificationPool.length];
+      const id = Date.now();
+
+      setNotifications(prev => [...prev, { id, ...notification }]);
+
+      // Remove after 4 seconds
       setTimeout(() => {
         setNotifications(prev => prev.filter(n => n.id !== id));
-      }, 5000);
+      }, 4000);
+
+      notificationIndex++;
+
+      // Random gap between 15-45 seconds
+      const nextDelay = 15000 + Math.random() * 30000;
+      setTimeout(showRandomNotification, nextDelay);
     };
 
-    const interval = setInterval(showNotification, 5000);
-    return () => clearInterval(interval);
+    // Start first notification after 5 seconds
+    const initialTimeout = setTimeout(showRandomNotification, 5000);
+
+    return () => clearTimeout(initialTimeout);
   }, []);
 
   const { user, isLoaded } = useUser();
@@ -354,25 +369,37 @@ export default function LandingPage() {
                 <RotatingText />
               </h1>
 
-              {/* Profit Feed Ticker (Floating) */}
+              {/* Profit Feed Ticker (Floating) - Rotates every hour */}
               <div className="absolute -left-20 top-1/2 -translate-y-1/2 hidden xl:block w-72 space-y-4 pointer-events-none text-left">
                 <p className="text-[10px] font-black tracking-[0.3em] text-white/20 uppercase mb-6 pl-4">RECENT WINS (24H)</p>
-                {[
-                  { user: "@trader_8x2", profit: "+$420", market: "Fed Meeting" },
-                  { user: "@anon_quant", profit: "+$1,240", market: "Nvidia Earnings" },
-                  { user: "@edge_hunter", profit: "+$680", market: "BTC $100k" }
-                ].map((hit, i) => (
-                  <motion.div
-                    key={i}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1 + i * 0.2 }}
-                    className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl backdrop-blur-xl"
-                  >
-                    <p className="text-emerald-500 font-black text-xs mb-1">{hit.profit}</p>
-                    <p className="text-white/40 font-bold text-[10px] uppercase truncate">{hit.user} hit {hit.market}</p>
-                  </motion.div>
-                ))}
+                {(() => {
+                  const allWins = [
+                    { user: "@trader_8x2", profit: "+$420", market: "Fed Meeting" },
+                    { user: "@anon_quant", profit: "+$1,240", market: "Nvidia Earnings" },
+                    { user: "@edge_hunter", profit: "+$680", market: "BTC $100k" },
+                    { user: "@whale_42", profit: "+$890", market: "Trump Indictment" },
+                    { user: "@quant_lord", profit: "+$1,580", market: "Tesla Earnings" },
+                    { user: "@alpha_seeker", profit: "+$320", market: "Fed Rate Cut" },
+                  ];
+
+                  // Rotate every hour based on current hour
+                  const hourIndex = new Date().getHours() % 2;
+                  const startIndex = hourIndex * 3;
+                  const currentWins = allWins.slice(startIndex, startIndex + 3);
+
+                  return currentWins.map((hit, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 1 + i * 0.2 }}
+                      className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl backdrop-blur-xl"
+                    >
+                      <p className="text-emerald-500 font-black text-xs mb-1">{hit.profit}</p>
+                      <p className="text-white/40 font-bold text-[10px] uppercase truncate">{hit.user} hit {hit.market}</p>
+                    </motion.div>
+                  ))
+                })()}
               </div>
 
               <p className="text-lg md:text-2xl text-white/70 max-w-3xl mx-auto mb-16 font-bold tracking-tight leading-normal">
@@ -600,15 +627,15 @@ export default function LandingPage() {
                         <Check size={16} className="text-emerald-500" />
                       </div>
                     </td>
-                    <td className="p-8 text-center opacity-50">
+                    <td className="p-6 text-center">
                       <div className="flex flex-col items-center gap-2">
-                        <span className="text-xs font-black text-white/60">{row.tremor}</span>
+                        <span className="text-xs font-black text-white/90">{row.tremor}</span>
                         <X size={16} className="text-red-500/50" />
                       </div>
                     </td>
-                    <td className="p-8 text-center opacity-50">
+                    <td className="p-6 text-center">
                       <div className="flex flex-col items-center gap-2">
-                        <span className="text-xs font-black text-white/60">{row.alphascope}</span>
+                        <span className="text-xs font-black text-white/90">{row.alphascope}</span>
                         <X size={16} className="text-red-500/50" />
                       </div>
                     </td>
