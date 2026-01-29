@@ -250,10 +250,44 @@ export default function LandingPage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="text-center"
             >
-              <h1 className="text-6xl md:text-[8rem] font-black tracking-tighter leading-[1.0] mb-12 uppercase italic">
-                Find Your <br />
-                <span className="text-emerald-500 drop-shadow-[0_0_60px_rgba(16,185,129,0.2)]">Edge</span>
+              {/* FOMO Elements */}
+              <div className="flex items-center justify-center gap-8 mb-12">
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-full">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+                  <span className="text-[10px] font-black tracking-widest text-white/60 uppercase">847 Active Users</span>
+                </div>
+                <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-full">
+                  <Zap size={14} className="text-emerald-500" />
+                  <span className="text-[10px] font-black tracking-widest text-white/60 uppercase">6 Edges Detected (Last Hour)</span>
+                </div>
+              </div>
+
+              <h1 className="text-6xl md:text-[8rem] font-black tracking-tightest leading-[0.85] uppercase mb-12 text-white">
+                <span className="block italic" style={{ fontSize: '0.2em', letterSpacing: '0.3em', marginBottom: '20px', color: '#10b981' }}>GOD-TIER ALPHA</span>
+                DETECT <span className="text-emerald-500">EDGE</span><br />
+                BEFORE THE <span className="bg-emerald-500 text-black px-4">CROWD</span>
               </h1>
+
+              {/* Profit Feed Ticker (Floating) */}
+              <div className="absolute -left-20 top-1/2 -translate-y-1/2 hidden xl:block w-72 space-y-4 pointer-events-none text-left">
+                <p className="text-[10px] font-black tracking-[0.3em] text-white/20 uppercase mb-6 pl-4">RECENT WINS (24H)</p>
+                {[
+                  { user: "@trader_8x2", profit: "+$420", market: "Fed Meeting" },
+                  { user: "@anon_quant", profit: "+$1,240", market: "Nvidia Earnings" },
+                  { user: "@edge_hunter", profit: "+$680", market: "BTC $100k" }
+                ].map((hit, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 1 + i * 0.2 }}
+                    className="p-4 bg-white/[0.02] border border-white/5 rounded-2xl backdrop-blur-xl"
+                  >
+                    <p className="text-emerald-500 font-black text-xs mb-1">{hit.profit}</p>
+                    <p className="text-white/40 font-bold text-[10px] uppercase truncate">{hit.user} hit {hit.market}</p>
+                  </motion.div>
+                ))}
+              </div>
 
               <p className="text-lg md:text-2xl text-white/70 max-w-3xl mx-auto mb-16 font-bold tracking-tight leading-normal">
                 Stop guessing. Start winning. PolyEdge identifies mispriced markets across Polymarket before the crowd even hears the news.

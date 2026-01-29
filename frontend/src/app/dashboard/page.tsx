@@ -1,225 +1,149 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
-    TrendingUp,
-    ShieldCheck,
-    Zap,
-    MessageSquare,
-    Newspaper,
-    BarChart3,
-    ArrowUpRight,
-    UserCheck,
-    AlertCircle
+    BarChart3, TrendingUp, AlertCircle,
+    Terminal as TerminalIcon, Globe, Zap,
+    Activity, ArrowUpRight, ArrowDownRight
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export default function Dashboard() {
-    const [data, setData] = useState<any>(null);
+export default function DashboardPage() {
+    const stats = [
+        { label: "NET PROFIT", value: "+$1,242.00", sub: "Last 7 Days", icon: <BarChart3 size={20} />, color: "text-emerald-500" },
+        { label: "EDGE DETECTED", value: "124", sub: "Scan Sessions", icon: <TrendingUp size={20} />, color: "text-blue-500" },
+        { label: "WIN RATE", value: "68%", sub: "Agent Execution", icon: <Zap size={20} />, color: "text-purple-500" },
+        { label: "NODE STATUS", value: "OPTIMAL", sub: "134ms Latency", icon: <Activity size={20} />, color: "text-emerald-500" },
+    ];
 
-    // Mock data for the "Whale Tape" and "Alpha Signals"
-    const whaleTrades = [
-        { id: 1, type: "BUY YES", amount: "$52,400", user: "0x7a...4e", time: "2m ago" },
-        { id: 2, type: "SELL NO", amount: "$12,000", user: "0xbc...1a", time: "5m ago" },
-        { id: 3, type: "BUY NO", amount: "$8,500", user: "0xff...dd", time: "8m ago" },
+    const recentEdges = [
+        { question: "Will the Fed lower rates by 50bps?", edge: "+14.2%", confidence: 88, status: "PROFIT", time: "2h ago" },
+        { question: "Super Bowl Winner: Chiefs?", edge: "+8.5%", confidence: 72, status: "ACTIVE", time: "14m ago" },
+        { question: "BTC to hit $100k by March?", edge: "+11.1%", confidence: 91, status: "SIGNAL", time: "5s ago" },
     ];
 
     return (
-        <div className="min-h-screen bg-black text-white p-6 lg:p-12">
-            {/* Top Nav / Status */}
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
-                <div>
-                    <h1 className="text-4xl font-black tracking-tighter mb-2">PRO TERMINAL_</h1>
-                    <p className="text-white/40 font-mono text-sm tracking-widest uppercase">Live Alpha Stream · WebSocket Connected</p>
-                </div>
-                <div className="flex gap-4">
-                    <div className="glass px-6 py-3 rounded-2xl flex items-center gap-3 border-emerald-500/20">
-                        <Zap className="text-emerald-500" size={18} />
-                        <div>
-                            <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Global Edge</p>
-                            <p className="text-emerald-500 font-black">+14.2%</p>
-                        </div>
-                    </div>
-                    <div className="glass px-6 py-3 rounded-2xl flex items-center gap-3 border-white/10">
-                        <Users className="text-blue-400" size={18} />
-                        <div>
-                            <p className="text-[10px] text-white/40 font-bold uppercase tracking-widest">Whales Active</p>
-                            <p className="font-black text-white">412</p>
-                        </div>
-                    </div>
-                </div>
+        <div className="space-y-10 pb-20">
+            {/* Welcome Header */}
+            <div>
+                <h1 className="text-4xl font-black uppercase tracking-tighter mb-2">Quant Terminal</h1>
+                <p className="text-white/40 font-bold tracking-tight">Active Cluster: PRO_S1_QUANT_NODE</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-                {/* Main Analysis Column */}
-                <div className="lg:col-span-8 space-y-8">
-                    {/* Signal Card */}
-                    <section className="glass-dark p-8 rounded-3xl border-emerald-500/30 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 p-8">
-                            <div className="flex flex-col items-end">
-                                <span className="text-[10px] font-black text-emerald-500 tracking-[0.3em] mb-1">AI CONFIDENCE</span>
-                                <span className="text-5xl font-black text-emerald-500 tracking-tighter">88%</span>
-                            </div>
+            {/* Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                {stats.map((stat, i) => (
+                    <motion.div
+                        key={stat.label}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: i * 0.1 }}
+                        className="p-8 rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-white/10 transition-all group"
+                    >
+                        <div className={cn("mb-6 p-3 bg-white/[0.03] rounded-xl w-fit group-hover:scale-110 transition-transform", stat.color)}>
+                            {stat.icon}
                         </div>
+                        <p className="text-[10px] font-black tracking-[0.2em] text-white/30 uppercase mb-1">{stat.label}</p>
+                        <h3 className="text-3xl font-black tracking-tighter mb-1 uppercase italic">{stat.value}</h3>
+                        <p className="text-[11px] font-bold text-white/20 uppercase tracking-widest">{stat.sub}</p>
+                    </motion.div>
+                ))}
+            </div>
 
-                        <div className="max-w-2xl">
-                            <div className="flex items-center gap-2 text-emerald-500 text-xs font-bold mb-4 bg-emerald-500/10 w-fit px-3 py-1 rounded-full border border-emerald-500/20">
-                                <ShieldCheck size={14} /> GOD-TIER SIGNAL DETECTED
-                            </div>
-                            <h2 className="text-3xl font-bold mb-4 leading-tight">Will the Federal Reserve cut rates by 50bps in March?</h2>
-
-                            <div className="flex gap-4 mb-8">
-                                <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                                    <span className="block text-[10px] text-white/40 font-bold uppercase">Market Price</span>
-                                    <span className="text-xl font-bold">42% (YES)</span>
-                                </div>
-                                <div className="bg-emerald-500/10 border border-emerald-500/20 px-4 py-2 rounded-xl">
-                                    <span className="block text-[10px] text-emerald-500 font-bold uppercase">Fair Value</span>
-                                    <span className="text-xl font-bold text-emerald-500">68% (YES)</span>
-                                </div>
-                            </div>
-
-                            <div className="space-y-4">
-                                <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-white/40 uppercase">
-                                    <MessageSquare size={16} /> Reasoning Log
-                                </h3>
-                                <div className="text-white/80 leading-relaxed font-light text-lg glass p-6 rounded-2xl border-white/5">
-                                    The market is severely underpricing the FOMC pivot. Current inflation data shows a terminal cooldown in core services, but the market is anchored to J. Powell's hawkish rhetoric from 3 months ago. Whale accumulation at the $92k bid level on related BTC pairs suggests institutional hedging for a surprise cut. GDELT sentiment on 'Economic Elasticity' has turned 82% bullish in Tier 1 sources over the last 48 hours.
-                                </div>
-                            </div>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                {/* Active Signals Feed */}
+                <div className="lg:col-span-2 space-y-6">
+                    <div className="flex items-center justify-between mb-4">
+                        <h2 className="text-xl font-black uppercase tracking-tighter">Live Sentinel Feed</h2>
+                        <div className="flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full">
+                            <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                            <span className="text-[9px] font-black text-emerald-500 tracking-widest uppercase">SCANNING</span>
                         </div>
-                    </section>
+                    </div>
 
-                    {/* Secondary Stats Row */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        {/* News Context */}
-                        <section className="glass-dark p-6 rounded-3xl border-white/5">
-                            <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-white/40 uppercase mb-6">
-                                <Newspaper size={16} /> Tier 1 Context
-                            </h3>
-                            <div className="space-y-4">
-                                <div className="flex gap-4 items-start p-3 hover:bg-white/5 rounded-xl transition-colors group">
-                                    <div className="text-emerald-500 font-bold text-xs bg-emerald-500/10 px-2 py-1 rounded">T1</div>
+                    <div className="space-y-4">
+                        {recentEdges.map((edge, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.4 + i * 0.1 }}
+                                className="p-6 rounded-2xl bg-white/[0.01] border border-white/5 hover:bg-white/[0.03] transition-all flex items-center justify-between group cursor-pointer"
+                            >
+                                <div className="flex items-center gap-6">
+                                    <div className="w-12 h-12 bg-white/[0.03] rounded-xl flex items-center justify-center text-white/40 group-hover:text-emerald-500 transition-colors">
+                                        <TerminalIcon size={20} />
+                                    </div>
                                     <div>
-                                        <p className="text-sm font-medium leading-tight mb-1 group-hover:text-emerald-400 transition-colors">Bloomberg: "Fed Insiders Hint at Aggressive Pivot"</p>
-                                        <span className="text-[10px] text-white/30 uppercase">2 hours ago · verified</span>
+                                        <h4 className="text-[14px] font-bold text-white/90 mb-1 line-clamp-1">{edge.question}</h4>
+                                        <div className="flex items-center gap-4">
+                                            <span className="text-[10px] font-black tracking-widest text-emerald-500 uppercase">{edge.edge} EDGE</span>
+                                            <span className="text-[10px] font-black tracking-widest text-white/20 uppercase">{edge.confidence}% CONFIDENCE</span>
+                                        </div>
                                     </div>
                                 </div>
-                                <div className="flex gap-4 items-start p-3 hover:bg-white/5 rounded-xl transition-colors group">
-                                    <div className="text-emerald-500 font-bold text-xs bg-emerald-500/10 px-2 py-1 rounded">T1</div>
-                                    <div>
-                                        <p className="text-sm font-medium leading-tight mb-1 group-hover:text-emerald-400 transition-colors">Reuters: "Global Inflation Cools Faster Than Bank Targets"</p>
-                                        <span className="text-[10px] text-white/30 uppercase">5 hours ago · verified</span>
+                                <div className="text-right">
+                                    <p className="text-[11px] font-black text-white/20 uppercase mb-1">{edge.time}</p>
+                                    <div className={cn(
+                                        "px-3 py-1 rounded-full text-[9px] font-black tracking-widest uppercase inline-block",
+                                        edge.status === "PROFIT" ? "bg-emerald-500/20 text-emerald-500" :
+                                            edge.status === "ACTIVE" ? "bg-blue-500/20 text-blue-500" : "bg-purple-500/20 text-purple-500"
+                                    )}>
+                                        {edge.status}
                                     </div>
                                 </div>
-                            </div>
-                        </section>
-
-                        {/* Sentiment Meter */}
-                        <section className="glass-dark p-6 rounded-3xl border-white/5">
-                            <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-white/40 uppercase mb-6">
-                                <BarChart3 size={16} /> Signal Agreement
-                            </h3>
-                            <div className="space-y-6">
-                                <div>
-                                    <div className="flex justify-between text-xs mb-2">
-                                        <span className="text-white/60">NEWS SENTIMENT</span>
-                                        <span className="text-emerald-500">BULLISH (+0.82)</span>
-                                    </div>
-                                    <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                                        <motion.div initial={{ width: 0 }} animate={{ width: "82%" }} className="h-full bg-emerald-500" />
-                                    </div>
-                                </div>
-                                <div>
-                                    <div className="flex justify-between text-xs mb-2">
-                                        <span className="text-white/60">X (TWITTER) SIGNAL</span>
-                                        <span className="text-blue-400">NEUTRAL (+0.12)</span>
-                                    </div>
-                                    <div className="w-full h-2 bg-white/5 rounded-full overflow-hidden">
-                                        <motion.div initial={{ width: 0 }} animate={{ width: "56%" }} className="h-full bg-blue-400" />
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
 
-                {/* Sidebar / Whale Tape */}
-                <div className="lg:col-span-4 space-y-8">
-                    {/* Whale Tape Section */}
-                    <section className="glass-dark p-6 rounded-3xl border-white/5 h-fit">
-                        <div className="flex justify-between items-center mb-6">
-                            <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-white/40 uppercase">
-                                <TrendingUp size={16} /> Whale Tape
-                            </h3>
-                            <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
+                {/* Global Heatmap Sidebar */}
+                <div className="space-y-6">
+                    <h2 className="text-xl font-black uppercase tracking-tighter">Market Sentiment</h2>
+                    <div className="p-8 rounded-[40px] bg-emerald-500/5 border border-emerald-500/10 min-h-[400px] flex flex-col justify-between relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 p-8 opacity-20 group-hover:opacity-40 transition-opacity">
+                            <Globe size={180} />
                         </div>
 
-                        <div className="space-y-6">
-                            {whaleTrades.map((trade) => (
-                                <div key={trade.id} className="flex justify-between items-center border-l-2 border-emerald-500/30 pl-4 py-1">
-                                    <div>
-                                        <p className={cn("text-xs font-black mb-1", trade.type.includes("YES") ? "text-emerald-500" : "text-red-500")}>
-                                            {trade.type}
-                                        </p>
-                                        <p className="text-[10px] text-white/40 font-mono tracking-tighter truncate w-24 uppercase">{trade.user}</p>
+                        <div className="z-10">
+                            <div className="flex items-center gap-3 mb-8">
+                                <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-500">
+                                    <Activity size={24} />
+                                </div>
+                                <div>
+                                    <p className="text-[11px] font-black tracking-widest text-emerald-500 uppercase">HIGH INTENSITY</p>
+                                    <p className="text-[15px] font-bold">Bullish Overhang</p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-black tracking-[0.2em] mb-2 uppercase">
+                                        <span>Twitter Sentiment</span>
+                                        <span className="text-emerald-500">84%</span>
                                     </div>
-                                    <div className="text-right">
-                                        <p className="text-sm font-bold">{trade.amount}</p>
-                                        <p className="text-[10px] text-white/30 uppercase">{trade.time}</p>
+                                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                        <div className="h-full bg-emerald-500 w-[84%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
                                     </div>
                                 </div>
-                            ))}
-                        </div>
-
-                        <button className="w-full mt-8 py-3 bg-white/5 hover:bg-white/10 border border-white/5 rounded-xl text-[10px] font-black tracking-widest text-white/40 transition-all uppercase">
-                            View Full Audit Tape
-                        </button>
-                    </section>
-
-                    {/* Insider Activity */}
-                    <section className="glass-dark p-6 rounded-3xl border-blue-500/20 bg-blue-500/[0.02]">
-                        <h3 className="flex items-center gap-2 text-sm font-bold tracking-widest text-blue-400 uppercase mb-4">
-                            <UserCheck size={16} /> Insider Monitoring
-                        </h3>
-                        <p className="text-xs text-white/50 leading-relaxed mb-6">
-                            Detection of 3 "Legendary" ranked wallets with &gt 90% win-rates accumulating positions on this event.
-                        </p>
-                        <div className="flex items-center gap-4 p-4 bg-white/5 rounded-2xl border border-white/5">
-                            <AlertCircle size={20} className="text-blue-400" />
-                            <div>
-                                <p className="text-[10px] font-black text-blue-400 uppercase tracking-widest">Aggregated Risk</p>
-                                <p className="text-sm font-bold">INSIDER ACCUMULATION HIGH</p>
+                                <div>
+                                    <div className="flex justify-between text-[10px] font-black tracking-[0.2em] mb-2 uppercase">
+                                        <span>GDELT News Fusion</span>
+                                        <span className="text-emerald-500">72%</span>
+                                    </div>
+                                    <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                        <div className="h-full bg-emerald-500 w-[72%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </section>
 
-                    {/* Action Button */}
-                    <button className="w-full py-6 bg-emerald-500 text-black font-black rounded-3xl text-xl hover:scale-[1.02] active:scale-[0.98] transition-all shadow-[0_0_30px_rgba(16,185,129,0.4)] flex items-center justify-center gap-3 group">
-                        BET WITH EDGE <ArrowUpRight className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </button>
+                        <button className="w-full py-4 bg-emerald-500 text-black font-black uppercase tracking-[0.3em] text-[11px] rounded-2xl hover:bg-white transition-all z-10 shadow-2xl">
+                            DOWNLOAD FULL REPORT
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
-    );
-}
-
-function Users({ className, size }: { className?: string, size?: number }) {
-    return (
-        <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width={size}
-            height={size}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className={className}
-        >
-            <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" />
-        </svg>
     );
 }
