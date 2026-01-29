@@ -188,8 +188,29 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative pt-32 pb-24 px-4 z-10 max-w-7xl mx-auto w-full">
+      {/* Top Banner Ticker - Full Width & High Visibility */}
+      <div className="w-full py-4 bg-emerald-500/5 border-b border-white/[0.05] overflow-hidden relative z-50">
+        <div className="flex gap-24 animate-infinite-scroll whitespace-nowrap">
+          {[
+            "WHALE_BID: $140K ON 'SUPER BOWL' @ 0.44",
+            "SIGNAL: GDELT FLASH ON 'FED MEETING' 4S AGO",
+            "EDGE_DETECTED: +12.4% ON 'POLITICS'",
+            "BOT_STATUS: SUB-140MS COLD BOOT SUCCESS",
+            "SENTIMENT_FLIP: INSIDERS ACCUMULATING",
+            "NEWS_FUSION: BLOOMBERG ON 'ELECTION 2024'",
+            "PnL_UPDATE: CLUSTER S1 REPORTING +8.2% WEEKLY",
+            "SIGNAL: Reuters mentions 'Interest Rates' — Analysis in progress"
+          ].map((text, i) => (
+            <div key={i} className="flex items-center gap-6">
+              <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
+              <span className="text-[11px] font-black text-white/60 tracking-widest uppercase">{text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Hero Section - Reduced padding to bring content higher */}
+      <section className="relative pt-16 pb-24 px-4 z-10 max-w-7xl mx-auto w-full">
         <AnimatePresence mode="wait">
           {step === "landing" && (
             <motion.div
@@ -242,27 +263,7 @@ export default function LandingPage() {
                 </div>
               </form>
 
-              {/* Ticker Section */}
-              <div className="py-8 bg-white/[0.01] border-y border-white/[0.05] mb-24 overflow-hidden relative">
-                <div className="flex gap-24 animate-infinite-scroll whitespace-nowrap opacity-40">
-                  {[
-                    "WHALE_BID: $140K ON 'SUPER BOWL' @ 0.44",
-                    "SIGNAL: GDELT FLASH ON 'FED MEETING'",
-                    "EDGE_DETECTED: +12.4% ON 'POLITICS'",
-                    "BOT_STATUS: SUB-140MS COLD BOOT SUCCESS",
-                    "SENTIMENT_FLIP: INSIDERS ACCUMULATING",
-                    "NEWS_FUSION: BLOOMBERG ON 'ELECTION 2024'"
-                  ].map((text, i) => (
-                    <div key={i} className="flex items-center gap-6">
-                      <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full" />
-                      <span className="text-[12px] font-black text-white/80 tracking-widest uppercase">{text}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Logo Cloud */}
-              <div className="mt-12">
+              <div className="mt-24">
                 <p className="text-[11px] font-black tracking-[0.5em] text-white/40 uppercase mb-12">Engineered by SWEs from</p>
                 <div className="flex flex-wrap justify-center items-center gap-16 md:gap-24 opacity-60 transition-all duration-700">
                   {logos.map((logo, i) => (

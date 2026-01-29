@@ -61,4 +61,4 @@ Integrating with Solana/Base launchpads to track "Smart Money" clusters—identi
 
 ---
 
-**Locked In.** Let's build the most impressive platform in the prediction market space.
+**Locked In.** Let's build the most impressive platform in the space.
