@@ -26,6 +26,42 @@ const PolyEdgeLogo = ({ size = 24, className = "" }: { size?: number, className?
   </svg>
 );
 
+// Rotating Hero Text Component (Manifold-style)
+const RotatingText = () => {
+  const phrases = [
+    { line1: "DETECT", highlight: "EDGE", line2: "BEFORE THE", highlight2: "CROWD" },
+    { line1: "FIND YOUR", highlight: "ALPHA", line2: "BEFORE THE", highlight2: "MARKET" },
+    { line1: "TRACK", highlight: "WHALES", line2: "BEAT THE", highlight2: "HERD" },
+    { line1: "AUTOMATE", highlight: "WINS", line2: "MAXIMIZE", highlight2: "PROFIT" }
+  ];
+
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % phrases.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const current = phrases[index];
+
+  return (
+    <AnimatePresence mode="wait">
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        transition={{ duration: 0.5 }}
+      >
+        {current.line1} <span className="text-emerald-500">{current.highlight}</span><br />
+        {current.line2} <span className="bg-emerald-500 text-black px-4">{current.highlight2}</span>
+      </motion.div>
+    </AnimatePresence>
+  );
+};
+
 export default function LandingPage() {
   const [url, setUrl] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
@@ -103,6 +139,11 @@ export default function LandingPage() {
 
     setAnalyzing(true);
     setStep("quiz"); // Move to quiz immediately for better UX
+
+    // Auto-scroll to quiz
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
 
     try {
       const response = await fetch("http://localhost:8000/analyze-url", {
@@ -263,8 +304,7 @@ export default function LandingPage() {
 
               <h1 className="text-6xl md:text-[8rem] font-black tracking-tightest leading-[0.85] uppercase mb-12 text-white">
                 <span className="block italic" style={{ fontSize: '0.2em', letterSpacing: '0.3em', marginBottom: '20px', color: '#10b981' }}>GOD-TIER ALPHA</span>
-                DETECT <span className="text-emerald-500">EDGE</span><br />
-                BEFORE THE <span className="bg-emerald-500 text-black px-4">CROWD</span>
+                <RotatingText />
               </h1>
 
               {/* Profit Feed Ticker (Floating) */}
@@ -378,7 +418,7 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <p className="text-white/60 font-bold mb-12 leading-relaxed text-[15px]">The cluster is analyzing this market. What's your primary goal with PolyEdge?</p>
+              <p className="text-white/60 font-bold mb-12 leading-relaxed text-[15px]">PolyEdge is analyzing this market. What's your primary goal with PolyEdge?</p>
 
               <div className="grid grid-cols-1 gap-4">
                 {[
@@ -427,7 +467,7 @@ export default function LandingPage() {
                 </div>
               )}
 
-              <p className="text-white/50 font-bold mb-16 text-lg tracking-tight">Review your cluster benefits before locking in your account.</p>
+              <p className="text-white/50 font-bold mb-16 text-lg tracking-tight">Review your Pro Account benefits before activating your Pro Account.</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left mb-16">
                 {[
