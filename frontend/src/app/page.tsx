@@ -62,6 +62,54 @@ const RotatingText = () => {
   );
 };
 
+// Live Market Ticker Component (Top of page)
+const LiveMarketTicker = () => {
+  const [markets, setMarkets] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Fetch live markets from backend
+    const fetchMarkets = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/markets?limit=10");
+        const data = await response.json();
+        setMarkets(data.markets || []);
+      } catch (error) {
+        console.error("Failed to fetch markets:", error);
+        // Fallback to mock data
+        setMarkets([
+          { question: "Bitcoin price on Jan 28, 2026 at 9pm EST?", probability: 0.89, volume: "$1,085,982", platform: "Polymarket" },
+          { question: "U.S. strike on Somalia by January 31?", probability: 0.97, volume: "$15,115", platform: "Polymarket" },
+          { question: "Will Tesla hit $500 by Feb 1?", probability: 0.72, volume: "$420,000", platform: "Polymarket" },
+        ]);
+      }
+    };
+
+    fetchMarkets();
+    const interval = setInterval(fetchMarkets, 30000); // Refresh every 30s
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className="w-full bg-black/40 border-b border-white/5 backdrop-blur-sm overflow-hidden">
+      <div className="flex animate-scroll-left whitespace-nowrap py-3">
+        {[...markets, ...markets].map((market, i) => (
+          <div key={i} className="inline-flex items-center gap-4 px-8 border-r border-white/5">
+            <span className="px-2 py-0.5 bg-emerald-500/20 border border-emerald-500/30 rounded text-[9px] font-black text-emerald-500 uppercase tracking-widest">
+              {market.platform || "Polymarket"}
+            </span>
+            <div className="flex items-center gap-2">
+              <TrendingUp size={12} className="text-emerald-500" />
+              <span className="text-emerald-500 font-black text-sm">{Math.round((market.probability || 0.5) * 100)}%</span>
+            </div>
+            <span className="text-white/80 font-bold text-sm max-w-xs truncate">{market.question}</span>
+            <span className="text-white/40 font-bold text-xs">{market.volume || "$0"}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
 export default function LandingPage() {
   const [url, setUrl] = useState("");
   const [analyzing, setAnalyzing] = useState(false);
@@ -279,6 +327,9 @@ export default function LandingPage() {
         </div>
       </div>
 
+      {/* Live Market Ticker */}
+      <LiveMarketTicker />
+
       {/* Hero Section - Reduced padding to bring content higher */}
       <section className="relative pt-16 pb-24 px-4 z-10 max-w-7xl mx-auto w-full">
         <AnimatePresence mode="wait">
@@ -290,12 +341,8 @@ export default function LandingPage() {
               exit={{ opacity: 0, scale: 0.98 }}
               className="text-center"
             >
-              {/* FOMO Elements */}
-              <div className="flex items-center justify-center gap-8 mb-12">
-                <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-full">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]" />
-                  <span className="text-[10px] font-black tracking-widest text-white/60 uppercase">847 Active Users</span>
-                </div>
+              {/* FOMO Elements - Only show edges detected */}
+              <div className="flex items-center justify-center mb-12">
                 <div className="flex items-center gap-2 px-4 py-2 bg-white/[0.03] border border-white/10 rounded-full">
                   <Zap size={14} className="text-emerald-500" />
                   <span className="text-[10px] font-black tracking-widest text-white/60 uppercase">6 Edges Detected (Last Hour)</span>

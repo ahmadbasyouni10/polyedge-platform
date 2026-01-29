@@ -91,3 +91,22 @@
 .glow-red {
   box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
 }
+
+/* Market Ticker Scroll Animation */
+@keyframes scroll-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-left {
+  animation: scroll-left 60s linear infinite;
+}
+
+.animate-scroll-left:hover {
+  animation-play-state: paused;
+}
