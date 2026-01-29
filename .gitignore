@@ -32,6 +32,7 @@ docs/
 .agent/
 .gemini/
 brain/
+ROADMAP.md
 
 # System Files
 .DS_Store
