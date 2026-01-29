@@ -1,0 +1,15 @@
+# NO CLUTTER & HUMAN-STYLE CODING
+- NEVER create extra .md files, "plan" files, or scratchpads unless explicitly asked
+- DO NOT leave markdown summaries or "todo" lists inside code files
+- Clean up after yourself: If you create a temporary file for a task, delete it immediately after completion
+- All markdown documentation goes in docs/ directory only
+
+# CODE STYLE PREFERENCES
+- NO EMOJIS: Never use emojis in code comments, commit messages, or chat responses
+- MINIMAL COMMENTS: Only comment on complex logic that isn't self-explanatory. Never add "Changed by AI" or "Updated this function" comments
+- HUMAN-LIKE SYNTAX: Write clean, idiomatic code. Avoid the "over-engineered" AI look
+- NO PROSE: In Agent mode, focus on the code. Do not give long explanations unless it's a critical warning
+
+# AGENT MODE SPECIFICS
+- Execute the task directly. Do not ask for permission for every small step
+- Ensure the final state of the codebase is "production-ready" with no leftover AI scaffolding

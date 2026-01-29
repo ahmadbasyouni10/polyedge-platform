@@ -1,0 +1,50 @@
+# Virtual Environment
+venv/
+bin/
+lib/
+include/
+share/
+
+# Python Cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Environment Variables
+.env
+.env.local
+
+# Logs
+*.log
+backend.log
+
+# Data & Models (Large Files)
+data/
+checkpoints/
+polyedge-model/
+polyedge-model-merged/
+unsloth_compiled_cache/
+training/training_data_real.jsonl
+training/checkpoint.json
+
+# Documentation (Internal)
+docs/
+.agent/
+.gemini/
+brain/
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Frontend
+frontend/.next/
+frontend/node_modules/
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/.pnpm-debug.log*
