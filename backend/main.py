@@ -5,11 +5,21 @@ from .supabase_client import get_supabase_client
 from .scanner import sync_markets_to_supabase
 from .services.polymarket_service import PolymarketService
 from .services.analysis_orchestrator import AnalysisOrchestrator
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
 
 load_dotenv()
 
 app = FastAPI(title="PolyEdge API", description="AI-Powered Trading Signal Engine for Polymarket")
+
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"], # Frontend URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 async def root():
@@ -96,7 +106,12 @@ async def sync_markets():
 
 @app.post("/scan-all")
 async def trigger_scan(background_tasks: BackgroundTasks):
-    """Trigger a scan of all tracked markets (Background Task)."""
-    # This will be refined to loop through markets and call Orchestrator
-    # background_tasks.add_task(...)
-    return {"status": "scanning", "message": "Market analysis loop started in background."}
+    """Trigger a continuous scan of all tracked markets (Background Task)."""
+    from .scanner import run_automated_scan
+    
+    background_tasks.add_task(run_automated_scan, limit=20)
+    return {
+        "status": "scanning", 
+        "message": "Market analysis loop (Sentinel Agent) started in background.",
+        "limit": 20
+    }

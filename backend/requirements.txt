@@ -1,6 +1,10 @@
 fastapi
 uvicorn
 supabase
+pytest
+pytest-mock
+httpx
+eth-account
 python-dotenv
 pydantic
 pydantic-settings

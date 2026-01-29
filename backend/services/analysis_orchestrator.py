@@ -5,7 +5,7 @@ from .notification_service import NotificationService
 from .betting_service import BettingService
 from ..utils.prompt_builder import PromptBuilder
 from ..supabase_client import get_supabase_client
-from typing import Dict, Any, Optional
+from typing import Dict, Any, Optional, List
 
 class AnalysisOrchestrator:
     """

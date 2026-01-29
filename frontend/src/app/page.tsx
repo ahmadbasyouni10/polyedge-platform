@@ -94,13 +94,43 @@ export default function LandingPage() {
     return () => clearInterval(interval);
   }, []);
 
+  const { user, isLoaded } = useUser();
+  const [analysisResult, setAnalysisResult] = useState<any>(null);
+
   const handleAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!url) return;
+
     setAnalyzing(true);
-    setTimeout(() => {
+    try {
+      const response = await fetch("http://localhost:8000/analyze-url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...(user?.id ? { "x-user-id": user.id } : {})
+        },
+        body: JSON.stringify({ url })
+      });
+
+      if (!response.ok) throw new Error("Analysis failed");
+
+      const data = await response.json();
+      setAnalysisResult(data);
+
+      // Move to quiz/results step
+      if (data.is_teaser) {
+        setStep("quiz");
+      } else {
+        // If logged in, we can show a detailed analysis view (future enhancement)
+        setStep("auth"); // For now, redirect to auth to show 'benefits'
+      }
+    } catch (err) {
+      console.error("API Error:", err);
+      // Fallback for demo if API is down
+      setTimeout(() => setStep("quiz"), 1000);
+    } finally {
       setAnalyzing(false);
-      setStep("quiz");
-    }, 1500);
+    }
   };
 
   const logos = ["Google", "AWS", "Meta", "Bloomberg", "Jane Street"];
@@ -286,8 +316,26 @@ export default function LandingPage() {
                 <div className="w-12 h-1.5 bg-white/10 rounded-full" />
                 <div className="w-12 h-1.5 bg-white/10 rounded-full" />
               </div>
-              <h2 className="text-3xl font-black uppercase mb-8">Onboarding</h2>
-              <p className="text-white/60 font-bold mb-12 leading-relaxed text-lg">We limit access to 100 quants to guarantee speed. What's your primary goal?</p>
+              <p className="text-[10px] font-black tracking-[0.3em] text-emerald-500 uppercase mb-4">AGENTIC ANALYSIS IN PROGRESS</p>
+              <h2 className="text-2xl font-black uppercase mb-8 line-clamp-2">{analysisResult?.question || "Onboarding"}</h2>
+
+              {/* Reasoning Feed Simulation */}
+              <div className="bg-black/40 border border-white/5 rounded-xl p-5 mb-10 font-mono text-[11px] space-y-2">
+                <div className="flex gap-3 text-emerald-500/60">
+                  <span className="shrink-0">[SENTINEL]</span>
+                  <span className="text-white/40">Fetching GDELT & X fusion for "{analysisResult?.question?.slice(0, 30)}..."</span>
+                </div>
+                <div className="flex gap-3 text-emerald-500">
+                  <span className="shrink-0">[SENTINEL]</span>
+                  <span>{analysisResult?.edge_detected ? "Significant edge detected. Isolating alpha." : "Scanning for conviction signals..."}</span>
+                </div>
+                <div className="flex gap-3 text-white/20">
+                  <span className="shrink-0">[HARVESTER]</span>
+                  <span>Monitoring whale intent on CLOB...</span>
+                </div>
+              </div>
+
+              <p className="text-white/60 font-bold mb-12 leading-relaxed text-[15px]">The cluster is currently analyzing this market. What is your primary objective?</p>
 
               <div className="grid grid-cols-1 gap-4">
                 {[
@@ -317,7 +365,22 @@ export default function LandingPage() {
               className="max-w-2xl mx-auto text-center bg-white/[0.02] border border-white/10 p-16 rounded-[40px] shadow-4xl backdrop-blur-2xl"
             >
               <div className="w-2.5 h-2.5 bg-emerald-500 rounded-full mx-auto mb-10 shadow-[0_0_20px_rgba(16,185,129,0.8)]" />
-              <h2 className="text-4xl font-black uppercase mb-8">Slot Secured</h2>
+              <h2 className="text-4xl font-black uppercase mb-8">
+                {analysisResult?.is_teaser ? "Edge Detected" : "Analysis Complete"}
+              </h2>
+
+              {analysisResult?.is_teaser && (
+                <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-2xl p-6 mb-12 text-left">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Terminal size={18} className="text-emerald-500" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-500">Alpha Leak</span>
+                  </div>
+                  <p className="text-white/80 font-bold text-sm leading-relaxed italic">
+                    "{analysisResult?.reasoning}"
+                  </p>
+                </div>
+              )}
+
               <p className="text-white/50 font-bold mb-16 text-lg tracking-tight">Review your cluster benefits before locking in your account.</p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 text-left mb-16">

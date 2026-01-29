@@ -39,11 +39,14 @@ def run_automated_scan(limit: int = 20):
     
     results = []
     for market in markets:
+        # Get real YES price
+        current_price = PolymarketService.get_market_yes_price(market['id'])
+        
         # Run the full pipeline (News -> AI -> Persistence -> Alerts -> Bets)
         prediction = AnalysisOrchestrator.analyze_market_live(
             market_id=market['id'],
             question=market['question'],
-            current_price=0.5, # Placeholder, would fetch from CLOB in production
+            current_price=current_price,
             volume=market['volume']
         )
         if prediction:

@@ -63,3 +63,22 @@ class PolymarketService:
         except Exception as e:
             print(f"Error in get_market_details: {e}")
             return None
+
+    @classmethod
+    def get_market_yes_price(cls, condition_id: str) -> float:
+        """Helper to get the latest YES price for a market (default 0.5)."""
+        prices = cls.get_market_prices(condition_id)
+        if prices and isinstance(prices, list) and len(prices) > 0:
+            # Polymarket prices-history usually returns a list of price points
+            # We take the most recent one for the YES token
+            return float(prices[-1].get("price", 0.5))
+        return 0.5
+
+    @staticmethod
+    def extract_token_id(market: Dict, outcome: str = "Yes") -> Optional[str]:
+        """Extracts the CLOB token ID for a specific outcome."""
+        clob_ids = market.get("clobTokenIds", [])
+        if not clob_ids: return None
+        
+        # Typically Index 0 is YES, Index 1 is NO for binary markets
+        return clob_ids[0] if outcome.lower() == "yes" else clob_ids[1] if len(clob_ids) > 1 else None
