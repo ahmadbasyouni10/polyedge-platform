@@ -102,6 +102,8 @@ export default function LandingPage() {
     if (!url) return;
 
     setAnalyzing(true);
+    setStep("quiz"); // Move to quiz immediately for better UX
+
     try {
       const response = await fetch("http://localhost:8000/analyze-url", {
         method: "POST",
@@ -112,22 +114,19 @@ export default function LandingPage() {
         body: JSON.stringify({ url })
       });
 
-      if (!response.ok) throw new Error("Analysis failed");
+      if (!response.ok) {
+        throw new Error("Backend unavailable. Please ensure the server is running.");
+      }
 
       const data = await response.json();
       setAnalysisResult(data);
 
-      // Move to quiz/results step
-      if (data.is_teaser) {
-        setStep("quiz");
-      } else {
-        // If logged in, we can show a detailed analysis view (future enhancement)
-        setStep("auth"); // For now, redirect to auth to show 'benefits'
-      }
-    } catch (err) {
-      console.error("API Error:", err);
-      // Fallback for demo if API is down
-      setTimeout(() => setStep("quiz"), 1000);
+      // Analysis complete - quiz is already showing
+    } catch (error) {
+      console.error("Analysis error:", error);
+      setAnalyzing(false);
+      setStep("landing"); // Return to landing on error
+      alert("⚠️ Backend connection failed. Make sure the server is running at localhost:8000");
     } finally {
       setAnalyzing(false);
     }
@@ -345,10 +344,20 @@ export default function LandingPage() {
               animate={{ opacity: 1, x: 0 }}
               className="max-w-xl mx-auto bg-white/[0.02] border border-white/10 p-16 rounded-[40px] text-left shadow-4xl backdrop-blur-2xl"
             >
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-1.5 bg-emerald-500 rounded-full" />
-                <div className="w-12 h-1.5 bg-white/10 rounded-full" />
-                <div className="w-12 h-1.5 bg-white/10 rounded-full" />
+              {/* Animated Progress Bar */}
+              <div className="mb-10">
+                <div className="flex items-center justify-between mb-3">
+                  <p className="text-[9px] font-black tracking-[0.3em] text-white/30 uppercase">Analysis Progress</p>
+                  <p className="text-[9px] font-black tracking-[0.3em] text-emerald-500 uppercase">{analyzing ? "SCANNING..." : "COMPLETE"}</p>
+                </div>
+                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-gradient-to-r from-emerald-500 to-emerald-300 rounded-full shadow-[0_0_10px_rgba(16,185,129,0.5)]"
+                    initial={{ width: "0%" }}
+                    animate={{ width: analyzing ? "75%" : "100%" }}
+                    transition={{ duration: 2, ease: "easeInOut" }}
+                  />
+                </div>
               </div>
               <p className="text-[10px] font-black tracking-[0.3em] text-emerald-500 uppercase mb-4">AGENTIC ANALYSIS IN PROGRESS</p>
               <h2 className="text-2xl font-black uppercase mb-8 line-clamp-2">{analysisResult?.question || "Onboarding"}</h2>
@@ -369,22 +378,25 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              <p className="text-white/60 font-bold mb-12 leading-relaxed text-[15px]">The cluster is currently analyzing this market. What is your primary objective?</p>
+              <p className="text-white/60 font-bold mb-12 leading-relaxed text-[15px]">The cluster is analyzing this market. What's your primary goal with PolyEdge?</p>
 
               <div className="grid grid-cols-1 gap-4">
                 {[
-                  { id: "polymarket", label: "POLYMARKET (PRIMARY)" },
-                  { id: "kalshi", label: "KALSHI (BETA ACCESS)" },
-                  { id: "crypto", label: "CRYPTO / MEME SIGNALS" },
-                  { id: "general", label: "ALL OF THE ABOVE" }
+                  { id: "edges", label: "FIND MISPRICED MARKETS", desc: "Detect edges before the crowd" },
+                  { id: "whales", label: "TRACK WHALE ACTIVITY", desc: "Monitor smart money on the CLOB" },
+                  { id: "automate", label: "AUTOMATE MY BETTING", desc: "Execute trades with AI signals" },
+                  { id: "all", label: "ALL OF THE ABOVE", desc: "Full God-Tier access" }
                 ].map(opt => (
                   <button
                     key={opt.id}
                     onClick={() => setStep("benefits")}
-                    className="group flex items-center justify-between p-7 border border-white/10 rounded-2xl bg-white/[0.03] hover:bg-emerald-500 hover:border-emerald-500 hover:text-black transition-all font-black text-xs uppercase tracking-[0.3em]"
+                    className="group flex items-start justify-between p-7 border border-white/10 rounded-2xl bg-white/[0.03] hover:bg-emerald-500 hover:border-emerald-500 hover:text-black transition-all text-left"
                   >
-                    <span>{opt.label}</span>
-                    <ChevronRight className="opacity-0 group-hover:opacity-100 transition-all" size={20} />
+                    <div>
+                      <p className="font-black text-xs uppercase tracking-[0.3em] mb-1">{opt.label}</p>
+                      <p className="text-[11px] font-bold opacity-60">{opt.desc}</p>
+                    </div>
+                    <ChevronRight className="opacity-0 group-hover:opacity-100 transition-all shrink-0 mt-1" size={20} />
                   </button>
                 ))}
               </div>
